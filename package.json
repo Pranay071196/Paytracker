@@ -2,7 +2,7 @@
   "name": "react-user-management",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pranay071196.github.io/Paytracker",
+
   "dependencies": {
     "@supabase/supabase-js": "^2.0.4",
     "@testing-library/jest-dom": "^5.12.0",
