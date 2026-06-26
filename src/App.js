@@ -93,7 +93,7 @@ function AppContent({ session }) {
 
   return (
     <div className={`app-wrapper theme-${theme}`}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginScreen session={session} />} />
