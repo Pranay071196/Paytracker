@@ -1,6 +1,6 @@
 # Supabase React User Management Template
 
-This example will set you up for a very common situation: Users can sign up with a magic link and then update their account with public profile information, including a profile image. 
+This example will set you up for a very common situation: Users can sign up with a magic link and then update their account with public profile information, including a profile image.
 
 This demonstrates how to use:
 
