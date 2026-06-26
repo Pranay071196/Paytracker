@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom'
+import SimpleHeader from './SimpleHeader'
 import './pages.css'
 
 export default function CodeVerificationScreen() {
   const navigate = useNavigate()
 
   return (
-    <main className="card-container">
-      <main className="card">
+    <>
+      <SimpleHeader />
+      <main className="card-container">
+        <article className="card">
         <section className="header">
           <button 
             className="back-link"
@@ -39,7 +42,8 @@ export default function CodeVerificationScreen() {
             Verify
           </button>
         </footer>
+        </article>
       </main>
-    </main>
+    </>
   )
 }

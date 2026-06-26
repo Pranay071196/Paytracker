@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
 import Header from './Header'
 import Footer from './Footer'
 import './pages.css'
 
 export default function SettingsPage() {
-  const navigate = useNavigate()
   const { theme, toggleTheme } = useApp()
 
   return (

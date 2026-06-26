@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
 import Header from './Header'
 import Footer from './Footer'
 import './pages.css'
 
 export default function ParticipantDashboard() {
-  const navigate = useNavigate()
   const { collections } = useApp()
 
   const pendingCollections = collections.filter(c => c.pending > 0)

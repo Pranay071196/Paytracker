@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import './pages.css'
 
 export default function ReconcilePage() {
-  const navigate = useNavigate()
-
   return (
     <main className="page-reconcile">
       <Header />
