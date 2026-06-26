@@ -8,7 +8,6 @@ export default function CodeVerificationScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const email = location.state?.email || ''
-  const phone = location.state?.phone || ''
   const [error, setError] = useState('')
 
   const handleResend = async () => {

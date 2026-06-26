@@ -7,7 +7,7 @@ import './pages.css'
 
 export default function OrganiserDashboard() {
   const navigate = useNavigate()
-  const { collections, refreshCollections, profile } = useApp()
+  const { collections, refreshCollections } = useApp()
 
   useEffect(() => {
     refreshCollections()
