@@ -1,4 +1,4 @@
-# Supabase multi-user data model plan 
+# Supabase multi-user data model plan
 
 ## Goal
 
