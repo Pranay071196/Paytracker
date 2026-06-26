@@ -11,7 +11,7 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: process.env.PUBLIC_URL,
+          emailRedirectTo: `${window.location.origin}/login`,
         },
       })
       if (error) throw error
