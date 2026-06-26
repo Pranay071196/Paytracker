@@ -4,7 +4,7 @@
 
 Make the app store collection data in Supabase so it is shared across logins and tied to the correct user:
 
-- The organiser can create a collection.
+- The organiser can create a collection. 
 - The organiser can add other users as participants by phone number or email.
 - When a participant later signs in, they see the expense/collection entries that were created for them.
 - The data is no longer stored only in the local React context.
