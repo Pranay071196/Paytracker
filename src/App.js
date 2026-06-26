@@ -1,6 +1,6 @@
 import './index.css'
 import { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import { AppProvider, useApp } from './AppContext'
 import { createOrFetchProfile } from './lib/supabaseHelpers'
@@ -93,7 +93,7 @@ function AppContent({ session }) {
 
   return (
     <div className={`app-wrapper theme-${theme}`}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginScreen session={session} />} />
@@ -131,7 +131,7 @@ function AppContent({ session }) {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   )
 }
