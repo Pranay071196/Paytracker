@@ -4,7 +4,11 @@ import Footer from './Footer'
 import './pages.css'
 
 export default function SettingsPage() {
-  const { theme, toggleTheme } = useApp()
+  const { theme, toggleTheme, user, profile } = useApp()
+
+  const displayPhone = profile?.phone || user.phone || 'Not set'
+  const displayRole = profile?.role || user.role || 'participant'
+  const displayName = profile?.full_name || 'Welcome'
 
   return (
     <main className="page-settings">
@@ -13,9 +17,9 @@ export default function SettingsPage() {
         <div className="settings-header">
           <div className="avatar-large">9</div>
           <div className="header-text">
-            <h1>Welcome</h1>
-            <p>+917019755101</p>
-            <span className="role-badge">ORGANIZER</span>
+            <h1>{displayName}</h1>
+            <p>{displayPhone}</p>
+            <span className="role-badge">{displayRole.toUpperCase()}</span>
           </div>
         </div>
 
@@ -36,7 +40,7 @@ export default function SettingsPage() {
           <div className="settings-item">
             <div className="item-icon-settings">⇄</div>
             <div className="item-text-settings">
-              <span>Switch to Participant</span>
+              <span>Switch to {user.role === 'organiser' ? 'Participant' : 'Organiser'}</span>
             </div>
             <div className="item-arrow">›</div>
           </div>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
 import Header from './Header'
@@ -6,7 +7,11 @@ import './pages.css'
 
 export default function OrganiserDashboard() {
   const navigate = useNavigate()
-  const { collections } = useApp()
+  const { collections, refreshCollections, profile } = useApp()
+
+  useEffect(() => {
+    refreshCollections()
+  }, [refreshCollections])
 
   const totalCollected = collections.reduce((sum, c) => sum + c.collected, 0)
   const totalPending = collections.reduce((sum, c) => sum + c.pending, 0)

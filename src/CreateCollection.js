@@ -1,16 +1,20 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useApp } from './AppContext'
+import { createCollectionWithParticipants } from './lib/supabaseHelpers'
+import { normalizePhoneNumber } from './LoginScreen'
 import './pages.css'
 
 export default function CreateCollection() {
   const navigate = useNavigate()
-  const { addCollection } = useApp()
+  const { refreshCollections, profile } = useApp()
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('sports')
   const [amount, setAmount] = useState('')
   const [participants, setParticipants] = useState([])
   const [newPhone, setNewPhone] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
 
   const categories = [
     { id: 'sports', label: 'Sports', icon: '⚽' },
@@ -19,8 +23,9 @@ export default function CreateCollection() {
   ]
 
   const addParticipant = () => {
-    if (newPhone && !participants.includes(newPhone)) {
-      setParticipants([...participants, newPhone])
+    const normalized = normalizePhoneNumber(newPhone)
+    if (normalized && !participants.includes(normalized)) {
+      setParticipants([...participants, normalized])
       setNewPhone('')
     }
   }
@@ -29,17 +34,33 @@ export default function CreateCollection() {
     setParticipants(participants.filter(p => p !== phone))
   }
 
-  const handleCreateCollection = () => {
-    if (title && amount && participants.length > 0) {
-      addCollection({
-        title,
-        category,
-        amount: parseInt(amount),
-        participants,
-        date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit' })
-      })
-      navigate('/organiser-dashboard')
+  const handleCreateCollection = async () => {
+    if (!title || !amount || participants.length === 0) return
+
+    setSaving(true)
+    setError('')
+
+    if (profile && profile.id) {
+      try {
+        await createCollectionWithParticipants(profile.id, {
+          title,
+          category,
+          targetAmount: parseInt(amount),
+          participantPhones: participants,
+        })
+        await refreshCollections()
+        setSaving(false)
+        navigate('/organiser-dashboard')
+        return
+      } catch (err) {
+        setError(err.message || 'Failed to create collection')
+        setSaving(false)
+        return
+      }
     }
+
+    setError('Profile not loaded. Please try signing in again.')
+    setSaving(false)
   }
 
   return (
@@ -121,15 +142,17 @@ export default function CreateCollection() {
               ))}
             </div>
           </div>
+
+          {error && <p className="note" style={{ color: '#b91c1c', marginTop: 8 }}>{error}</p>}
         </div>
 
         <div className="modal-footer">
           <button 
             className="create-btn"
             onClick={handleCreateCollection}
-            disabled={!title || !amount || participants.length === 0}
+            disabled={!title || !amount || participants.length === 0 || saving}
           >
-            Create collection
+            {saving ? 'Creating...' : 'Create collection'}
           </button>
         </div>
       </div>

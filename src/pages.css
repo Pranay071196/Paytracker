@@ -1440,6 +1440,31 @@
   cursor: pointer;
   transition: all 0.2s;
   color: #f8fafc;
+  position: relative;
+}
+
+.collection-card .delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  padding: 4px 8px;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.collection-card:hover .delete-btn {
+  opacity: 0.6;
+}
+
+.collection-card .delete-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .collection-card:hover {
@@ -2422,6 +2447,10 @@
 .app-wrapper.theme-light .collection-card:hover {
   border-color: #d1d5db;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.app-wrapper.theme-light .collection-card .delete-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .app-wrapper.theme-light .card-title {

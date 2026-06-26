@@ -1,19 +1,34 @@
 import { useNavigate } from 'react-router-dom'
+import { supabase } from './supabaseClient'
 import { useApp } from './AppContext'
+import { createOrFetchProfile } from './lib/supabaseHelpers'
 import './pages.css'
 
 export default function Header() {
   const navigate = useNavigate()
-  const { theme, toggleTheme, user, updateUser } = useApp()
+  const { theme, toggleTheme, user, updateUser, profile, setProfile } = useApp()
 
-  const handleRoleSwitch = () => {
+  const handleRoleSwitch = async () => {
     const newRole = user.role === 'organiser' ? 'participant' : 'organiser'
     updateUser({ role: newRole })
+
+    if (profile && profile.id) {
+      await supabase.from('profiles').update({ role: newRole }).eq('id', profile.id)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        const updated = await createOrFetchProfile(session.user, { role: newRole })
+        if (updated) setProfile(updated)
+      }
+    }
+
     navigate(newRole === 'organiser' ? '/organiser-dashboard' : '/participant-dashboard')
   }
 
   const handleLogout = () => {
-    updateUser({ role: 'organiser' })
+    supabase.auth.signOut()
+    localStorage.removeItem('pendingPhone')
+    updateUser({ role: 'organiser', phone: '', name: 'You' })
+    setProfile(null)
     navigate('/')
   }
 

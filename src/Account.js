@@ -18,7 +18,7 @@ export default function Account({ session }) {
           .from('profiles')
           .select(`username, website, avatar_url`)
           .eq('id', user.id)
-          .single()
+          .maybeSingle()
 
         if (error) {
           throw error

@@ -1,47 +1,60 @@
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { supabase } from './supabaseClient'
 import SimpleHeader from './SimpleHeader'
 import './pages.css'
 
 export default function CodeVerificationScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const email = location.state?.email || ''
+  const phone = location.state?.phone || ''
+  const [error, setError] = useState('')
+
+  const handleResend = async () => {
+    if (!email) return
+
+    try {
+      setError('')
+      await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/select-role`,
+          shouldCreateUser: true,
+        },
+      })
+    } catch (err) {
+      setError(err.message || 'Unable to resend the sign-in link.')
+    }
+  }
 
   return (
     <>
       <SimpleHeader />
       <main className="card-container">
         <article className="card">
-        <section className="header">
-          <button 
-            className="back-link"
-            onClick={() => navigate('/login')}
-          >
-            ← Back
-          </button>
-          <p className="step">STEP 2 OF 2</p>
-          <h1>Enter the code</h1>
-          <p className="description">Sent to +917019755101. Hint: any 6-digit code works (try 123456)</p>
-        </section>
+          <section className="header">
+            <button className="back-link" onClick={() => navigate('/login')}>
+              ← Back
+            </button>
+            <p className="step">STEP 2 OF 2</p>
+            <h1>Check your email</h1>
+            <p className="description">We sent a secure sign-in link to {email || 'your email'}.</p>
+          </section>
 
-        <section className="header">
-          <div className="pin-row">
-            <div className="pin-cell">1</div>
-            <div className="pin-cell">2</div>
-            <div className="pin-cell">3</div>
-            <div className="pin-cell">4</div>
-            <div className="pin-cell">5</div>
-            <div className="pin-cell">6</div>
-          </div>
-        </section>
+          <section className="header">
+            <p className="note">Open the link in your inbox to continue.</p>
+            {error ? <p className="note" style={{ color: '#b91c1c' }}>{error}</p> : null}
+          </section>
 
-        <footer className="footer">
-          <p className="help">Didn't get it? Resend in 27s</p>
-          <button 
-            className="continue-btn"
-            onClick={() => navigate('/select-role')}
-          >
-            Verify
-          </button>
-        </footer>
+          <footer className="footer">
+            <button className="button secondary" onClick={handleResend}>
+              Resend link
+            </button>
+            <button className="continue-btn" onClick={() => navigate('/select-role')}>
+              Continue
+            </button>
+          </footer>
         </article>
       </main>
     </>

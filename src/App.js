@@ -1,9 +1,9 @@
 import './index.css'
-import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import { AppProvider, useApp } from './AppContext'
-import Auth from './Auth'
+import { createOrFetchProfile } from './lib/supabaseHelpers'
 import Home from './Home'
 import Organize from './Organize'
 import Participate from './Participate'
@@ -17,31 +17,6 @@ import CreateCollection from './CreateCollection'
 import AllCollections from './AllCollections'
 import ReconcilePage from './ReconcilePage'
 import SettingsPage from './SettingsPage'
-
-function LoginPage({ session }) {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (session) {
-      navigate('/home', { replace: true })
-    }
-  }, [session, navigate])
-
-  return <Auth />
-}
-
-function AuthRedirect({ session }) {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  useEffect(() => {
-    if (session && location.pathname !== '/home') {
-      navigate('/home', { replace: true })
-    }
-  }, [session, location.pathname, navigate])
-
-  return null
-}
 
 function PrivateRoute({ session, children }) {
   if (!session) {
@@ -84,24 +59,52 @@ export default function App() {
 }
 
 function AppContent({ session }) {
-  const { theme } = useApp()
+  const { theme, setProfile, updateUser } = useApp()
+  const createdProfile = useRef(false)
+
+  useEffect(() => {
+    if (!session) {
+      createdProfile.current = false
+      return
+    }
+
+    if (createdProfile.current) return
+    createdProfile.current = true
+
+    const phone = localStorage.getItem('pendingPhone')
+    createOrFetchProfile(session.user, { phone: phone || undefined })
+      .then((profileData) => {
+        if (profileData) {
+          setProfile(profileData)
+          updateUser({
+            phone: profileData.phone || phone || '',
+            role: profileData.role || 'participant',
+            name: profileData.full_name || 'User',
+          })
+          console.log('[Auth] Profile synced:', profileData.id, profileData.role)
+        } else {
+          console.warn('[Auth] createOrFetchProfile returned null — no profile created')
+        }
+      })
+      .catch((err) => {
+        console.error('[Auth] Profile creation failed:', err.message || err)
+      })
+  }, [session, setProfile, updateUser])
 
   return (
     <div className={`app-wrapper theme-${theme}`}>
       <BrowserRouter>
-        <AuthRedirect session={session} />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/login" element={<LoginScreen session={session} />} />
           <Route path="/verify-code" element={<CodeVerificationScreen />} />
-          <Route path="/select-role" element={<RoleSelection />} />
-          <Route path="/organiser-dashboard" element={<OrganiserDashboard />} />
-          <Route path="/participant-dashboard" element={<ParticipantDashboard />} />
-          <Route path="/create-collection" element={<CreateCollection />} />
-          <Route path="/collections" element={<AllCollections />} />
-          <Route path="/reconcile" element={<ReconcilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/auth" element={<LoginPage session={session} />} />
+          <Route path="/select-role" element={<PrivateRoute session={session}><RoleSelection /></PrivateRoute>} />
+          <Route path="/organiser-dashboard" element={<PrivateRoute session={session}><OrganiserDashboard /></PrivateRoute>} />
+          <Route path="/participant-dashboard" element={<PrivateRoute session={session}><ParticipantDashboard /></PrivateRoute>} />
+          <Route path="/create-collection" element={<PrivateRoute session={session}><CreateCollection /></PrivateRoute>} />
+          <Route path="/collections" element={<PrivateRoute session={session}><AllCollections /></PrivateRoute>} />
+          <Route path="/reconcile" element={<PrivateRoute session={session}><ReconcilePage /></PrivateRoute>} />
+          <Route path="/settings" element={<PrivateRoute session={session}><SettingsPage /></PrivateRoute>} />
           <Route
             path="/home"
             element={

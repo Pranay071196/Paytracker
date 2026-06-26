@@ -1,5 +1,5 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
 import { useApp } from './AppContext'
 import Header from './Header'
 import Footer from './Footer'
@@ -7,13 +7,24 @@ import './pages.css'
 
 export default function AllCollections() {
   const navigate = useNavigate()
-  const { collections } = useApp()
+  const { collections, deleteCollection, refreshCollections } = useApp()
+
+  useEffect(() => {
+    refreshCollections()
+  }, [refreshCollections])
   const [selectedFilter, setSelectedFilter] = useState('all')
 
   const filters = ['All', 'Sports', 'Travel', 'Events']
   const filteredCollections = selectedFilter === 'all' 
     ? collections 
     : collections.filter(c => c.category === selectedFilter.toLowerCase())
+
+  const handleDelete = async (e, id) => {
+    e.stopPropagation()
+    if (window.confirm('Delete this collection? This cannot be undone.')) {
+      await deleteCollection(id)
+    }
+  }
 
   return (
     <main className="page-collections">
@@ -66,6 +77,9 @@ export default function AllCollections() {
                     <span className="value pending">₹{collection.pending}</span>
                   </div>
                 </div>
+                <button className="delete-btn" onClick={(e) => handleDelete(e, collection.id)} title="Delete collection">
+                  🗑
+                </button>
               </div>
             ))
           )}
