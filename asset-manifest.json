@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Paytracker/static/css/main.503ae212.chunk.css",
-    "main.js": "/Paytracker/static/js/main.1a09bf79.chunk.js",
-    "main.js.map": "/Paytracker/static/js/main.1a09bf79.chunk.js.map",
+    "main.css": "/Paytracker/static/css/main.b563162e.chunk.css",
+    "main.js": "/Paytracker/static/js/main.37ec3fc8.chunk.js",
+    "main.js.map": "/Paytracker/static/js/main.37ec3fc8.chunk.js.map",
     "runtime-main.js": "/Paytracker/static/js/runtime-main.f758ceec.js",
     "runtime-main.js.map": "/Paytracker/static/js/runtime-main.f758ceec.js.map",
-    "static/js/2.1ccb49c0.chunk.js": "/Paytracker/static/js/2.1ccb49c0.chunk.js",
-    "static/js/2.1ccb49c0.chunk.js.map": "/Paytracker/static/js/2.1ccb49c0.chunk.js.map",
+    "static/js/2.83f24654.chunk.js": "/Paytracker/static/js/2.83f24654.chunk.js",
+    "static/js/2.83f24654.chunk.js.map": "/Paytracker/static/js/2.83f24654.chunk.js.map",
     "static/js/3.ad1bbdb8.chunk.js": "/Paytracker/static/js/3.ad1bbdb8.chunk.js",
     "static/js/3.ad1bbdb8.chunk.js.map": "/Paytracker/static/js/3.ad1bbdb8.chunk.js.map",
     "index.html": "/Paytracker/index.html",
-    "static/css/main.503ae212.chunk.css.map": "/Paytracker/static/css/main.503ae212.chunk.css.map",
-    "static/js/2.1ccb49c0.chunk.js.LICENSE.txt": "/Paytracker/static/js/2.1ccb49c0.chunk.js.LICENSE.txt"
+    "static/css/main.b563162e.chunk.css.map": "/Paytracker/static/css/main.b563162e.chunk.css.map",
+    "static/js/2.83f24654.chunk.js.LICENSE.txt": "/Paytracker/static/js/2.83f24654.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.f758ceec.js",
-    "static/js/2.1ccb49c0.chunk.js",
-    "static/css/main.503ae212.chunk.css",
-    "static/js/main.1a09bf79.chunk.js"
+    "static/js/2.83f24654.chunk.js",
+    "static/css/main.b563162e.chunk.css",
+    "static/js/main.37ec3fc8.chunk.js"
   ]
 }
