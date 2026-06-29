@@ -18,7 +18,7 @@ export default function CodeVerificationScreen() {
       await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/select-role`,
+          emailRedirectTo: process.env.REACT_APP_REDIRECT_URL,
           shouldCreateUser: true,
         },
       })

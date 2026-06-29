@@ -58,7 +58,7 @@ export default function LoginScreen({ session }) {
       const { error } = await supabase.auth.signInWithOtp({
         email: normalizedEmail,
         options: {
-          emailRedirectTo: `${window.location.origin}/login`,
+          emailRedirectTo: process.env.REACT_APP_REDIRECT_URL,
           shouldCreateUser: true,
         },
       })
