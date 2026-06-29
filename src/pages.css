@@ -35,7 +35,8 @@
 }
 
 .app-wrapper.theme-dark .card,
-.app-wrapper.theme-dark .modal-card {
+.app-wrapper.theme-dark .modal-card,
+.app-wrapper.theme-dark .action-card {
   background: rgba(20, 48, 88, 0.45);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -2726,16 +2727,27 @@
   background: rgba(15, 38, 75, 0.28);
 }
 
-.app-wrapper.theme-light .modal-card {
-  background: #ffffff;
+.app-wrapper.theme-light .modal-card,
+.app-wrapper.theme-light .action-card {
+  background: rgba(242, 252, 245, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   color: #000000;
-  border-color: #e5e7eb;
-  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.18);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.12);
+}
+
+.app-wrapper.theme-light .action-card {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.app-wrapper.theme-light .action-icon {
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .app-wrapper.theme-light .modal-header,
 .app-wrapper.theme-light .modal-footer {
-  border-color: #e5e7eb;
+  border-color: rgba(0, 0, 0, 0.06);
 }
 
 .app-wrapper.theme-light .modal-header h1,

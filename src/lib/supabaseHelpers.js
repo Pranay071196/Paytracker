@@ -123,6 +123,18 @@ export async function updateProfileUpiId(profileId, upiId) {
   return data
 }
 
+export async function updateProfileName(profileId, fullName) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ full_name: fullName || null })
+    .eq('id', profileId)
+    .select()
+    .maybeSingle()
+
+  if (error) throw error
+  return data
+}
+
 export async function createCollectionWithParticipants(
   organiserProfileId,
   { title, category, targetAmount, collectionDate, participantPhones }

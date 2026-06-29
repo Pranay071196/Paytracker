@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
-import { updateProfileUpiId } from './lib/supabaseHelpers'
+import { updateProfileUpiId, updateProfileName } from './lib/supabaseHelpers'
 import Header from './Header'
 import Footer from './Footer'
 import './pages.css'
@@ -12,6 +12,9 @@ export default function SettingsPage() {
   const [upiId, setUpiId] = useState(profile?.upi_id || '')
   const [upiSaved, setUpiSaved] = useState(false)
   const [upiSaving, setUpiSaving] = useState(false)
+  const [editingName, setEditingName] = useState(false)
+  const [nameInput, setNameInput] = useState(profile?.full_name || '')
+  const [nameSaving, setNameSaving] = useState(false)
 
   const displayPhone = profile?.phone || user.phone || 'Not set'
   const displayRole = profile?.role || user.role || 'participant'
@@ -34,6 +37,20 @@ export default function SettingsPage() {
     }
   }
 
+  const handleSaveName = async () => {
+    if (!profile?.id || !nameInput.trim()) return
+    setNameSaving(true)
+    try {
+      const updated = await updateProfileName(profile.id, nameInput.trim())
+      if (updated) setProfile(updated)
+      setEditingName(false)
+    } catch {
+      // ignore
+    } finally {
+      setNameSaving(false)
+    }
+  }
+
   return (
     <main className="page-settings">
       <Header />
@@ -41,7 +58,27 @@ export default function SettingsPage() {
         <div className="settings-header">
           <div className="avatar-large">9</div>
           <div className="header-text">
-            <h1>{displayName}</h1>
+            {editingName ? (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+                <input
+                  type="text"
+                  value={nameInput}
+                  onChange={e => setNameInput(e.target.value)}
+                  className="form-input"
+                  style={{ flex: 1, padding: '8px 12px', fontSize: '1rem' }}
+                  autoFocus
+                  onKeyDown={e => { if (e.key === 'Enter') handleSaveName(); if (e.key === 'Escape') setEditingName(false) }}
+                />
+                <button className="share-btn" onClick={handleSaveName} disabled={nameSaving || !nameInput.trim()}>
+                  {nameSaving ? '...' : 'Save'}
+                </button>
+                <button className="share-btn" style={{ background: '#6b7280' }} onClick={() => setEditingName(false)}>✕</button>
+              </div>
+            ) : (
+              <h1 onClick={() => { setNameInput(profile?.full_name || ''); setEditingName(true) }} style={{ cursor: 'pointer' }}>
+                {displayName} ✏️
+              </h1>
+            )}
             <p>{displayPhone}</p>
             <span className="role-badge">{displayRole.toUpperCase()}</span>
           </div>
