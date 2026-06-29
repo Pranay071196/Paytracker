@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
 import Header from './Header'
 import Footer from './Footer'
+import SwipeableCard from './SwipeableCard'
 import './pages.css'
 
 export default function OrganiserDashboard() {
   const navigate = useNavigate()
-  const { collections, refreshCollections } = useApp()
+  const { collections, refreshCollections, deleteCollection, profile } = useApp()
 
   useEffect(() => {
     refreshCollections()
@@ -22,6 +23,16 @@ export default function OrganiserDashboard() {
       <Header />
       
       <section className="panel">
+        {!profile?.upi_id && (
+          <div className="upi-warning" onClick={() => navigate('/settings')}>
+            <span className="upi-warning-icon">⚠️</span>
+            <div className="upi-warning-text">
+              <strong>Set up UPI ID</strong>
+              <p>Add your UPI ID so participants can pay you directly.</p>
+            </div>
+            <span className="upi-warning-arrow">→</span>
+          </div>
+        )}
         <div className="header-dash">
           <div>
             <p className="greeting">Namaste 👋</p>
@@ -84,14 +95,27 @@ export default function OrganiserDashboard() {
           ) : (
             <div className="recent-list">
               {collections.slice(-3).reverse().map(collection => (
-                <div key={collection.id} className="recent-item" onClick={() => navigate('/collections')}>
-                  <div className="recent-icon">⚽</div>
-                  <div className="recent-details">
-                    <div className="recent-title">{collection.title}</div>
-                    <div className="recent-meta">{collection.participants.length} participants · ₹{collection.amount}</div>
+                <SwipeableCard
+                  key={collection.id}
+                  id={collection.id}
+                  actions={[
+                    { type: 'view', handler: () => navigate(`/collection/${collection.id}`) },
+                    { type: 'delete', handler: async () => {
+                      if (window.confirm('Delete this collection?')) {
+                        await deleteCollection(collection.id)
+                      }
+                    }},
+                  ]}
+                >
+                  <div className="recent-item" onClick={() => navigate('/collections')}>
+                    <div className="recent-icon">⚽</div>
+                    <div className="recent-details">
+                      <div className="recent-title">{collection.title}</div>
+                      <div className="recent-meta">{collection.participants.length} participants · ₹{collection.amount}</div>
+                    </div>
+                    <div className="recent-status">{collection.paid}/{collection.participants.length} paid</div>
                   </div>
-                  <div className="recent-status">{collection.paid}/{collection.participants.length} paid</div>
-                </div>
+                </SwipeableCard>
               ))}
             </div>
           )}

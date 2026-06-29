@@ -89,7 +89,38 @@ export async function fetchParticipantCollections(profileId) {
     .eq('participant_profile_id', profileId)
 
   if (error) throw error
-  return data || []
+  if (!data) return []
+
+  const organiserIds = [...new Set(data.map(cp => cp.collection?.organiser_profile_id).filter(Boolean))]
+  let upiMap = {}
+
+  if (organiserIds.length > 0) {
+    const { data: organisers } = await supabase
+      .from('profiles')
+      .select('id, upi_id, full_name')
+      .in('id', organiserIds)
+
+    if (organisers) {
+      organisers.forEach(o => { upiMap[o.id] = { upi_id: o.upi_id, full_name: o.full_name } })
+    }
+  }
+
+  return data.map(cp => ({
+    ...cp,
+    organiser_upi: cp.collection?.organiser_profile_id ? upiMap[cp.collection.organiser_profile_id] : null,
+  }))
+}
+
+export async function updateProfileUpiId(profileId, upiId) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ upi_id: upiId || null })
+    .eq('id', profileId)
+    .select()
+    .maybeSingle()
+
+  if (error) throw error
+  return data
 }
 
 export async function createCollectionWithParticipants(

@@ -2,17 +2,19 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useApp } from './AppContext'
 import { createCollectionWithParticipants } from './lib/supabaseHelpers'
+import { updateProfileUpiId } from './lib/supabaseHelpers'
 import { normalizePhoneNumber } from './LoginScreen'
 import './pages.css'
 
 export default function CreateCollection() {
   const navigate = useNavigate()
-  const { refreshCollections, profile } = useApp()
+  const { refreshCollections, profile, setProfile } = useApp()
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('sports')
   const [amount, setAmount] = useState('')
   const [participants, setParticipants] = useState([])
   const [newPhone, setNewPhone] = useState('')
+  const [upiId, setUpiId] = useState(profile?.upi_id || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -42,6 +44,10 @@ export default function CreateCollection() {
 
     if (profile && profile.id) {
       try {
+        if (upiId.trim() && upiId.trim() !== (profile.upi_id || '')) {
+          const updated = await updateProfileUpiId(profile.id, upiId.trim())
+          if (updated) setProfile(updated)
+        }
         await createCollectionWithParticipants(profile.id, {
           title,
           category,
@@ -141,6 +147,18 @@ export default function CreateCollection() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="form-group">
+            <label>YOUR UPI ID (for payments)</label>
+            <input
+              type="text"
+              placeholder="e.g. name@upi"
+              value={upiId}
+              onChange={(e) => setUpiId(e.target.value)}
+              className="form-input"
+            />
+            {!upiId && <p className="helper-text">Participants need this to pay you. You can also set it in Settings.</p>}
           </div>
 
           {error && <p className="note" style={{ color: '#b91c1c', marginTop: 8 }}>{error}</p>}

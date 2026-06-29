@@ -1,14 +1,38 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
+import { updateProfileUpiId } from './lib/supabaseHelpers'
 import Header from './Header'
 import Footer from './Footer'
 import './pages.css'
 
 export default function SettingsPage() {
-  const { theme, toggleTheme, user, profile } = useApp()
+  const navigate = useNavigate()
+  const { theme, toggleTheme, user, profile, setProfile } = useApp()
+  const [upiId, setUpiId] = useState(profile?.upi_id || '')
+  const [upiSaved, setUpiSaved] = useState(false)
+  const [upiSaving, setUpiSaving] = useState(false)
 
   const displayPhone = profile?.phone || user.phone || 'Not set'
   const displayRole = profile?.role || user.role || 'participant'
   const displayName = profile?.full_name || 'Welcome'
+  const isOrganiser = displayRole === 'organiser'
+
+  const handleSaveUpi = async () => {
+    if (!profile?.id) return
+    setUpiSaving(true)
+    setUpiSaved(false)
+    try {
+      const updated = await updateProfileUpiId(profile.id, upiId.trim())
+      if (updated) setProfile(updated)
+      setUpiSaved(true)
+      setTimeout(() => setUpiSaved(false), 2000)
+    } catch {
+      setUpiSaved(false)
+    } finally {
+      setUpiSaving(false)
+    }
+  }
 
   return (
     <main className="page-settings">
@@ -36,8 +60,40 @@ export default function SettingsPage() {
           </div>
         </section>
 
+        {isOrganiser && (
+          <section className="settings-section">
+            <h2 className="section-title-settings">Payments</h2>
+            <div className="settings-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10, paddingBottom: 18 }}>
+              <div className="item-text-settings">
+                <span>UPI ID</span>
+                <p style={{ margin: '4px 0 0', fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                  Participants will use this to send payments.
+                </p>
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="e.g. name@upi"
+                  value={upiId}
+                  onChange={e => setUpiId(e.target.value)}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  className="button"
+                  onClick={handleSaveUpi}
+                  disabled={upiSaving}
+                  style={{ width: 'auto', padding: '14px 20px', whiteSpace: 'nowrap' }}
+                >
+                  {upiSaving ? 'Saving...' : upiSaved ? 'Saved ✓' : 'Save'}
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="settings-section">
-          <div className="settings-item">
+          <div className="settings-item" onClick={() => navigate('/select-role')}>
             <div className="item-icon-settings">⇄</div>
             <div className="item-text-settings">
               <span>Switch to {user.role === 'organiser' ? 'Participant' : 'Organiser'}</span>

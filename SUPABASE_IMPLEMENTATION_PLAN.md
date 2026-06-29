@@ -44,6 +44,7 @@ Suggested columns:
 - email: text, unique
 - phone: text, unique
 - role: text, values like organiser / participant
+- upi_id: text, nullable — the organiser's UPI ID for receiving payments
 - created_at: timestamptz
 - updated_at: timestamptz
 
@@ -185,6 +186,7 @@ create table if not exists public.profiles (
   email text unique,
   phone text unique,
   role text not null default 'participant',
+  upi_id text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

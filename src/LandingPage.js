@@ -1,11 +1,21 @@
 import { useNavigate } from 'react-router-dom'
+import { useApp } from './AppContext'
 import './pages.css'
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const { theme, toggleTheme } = useApp()
 
   return (
     <main className="page landing-page">
+      <button
+        className="floating-theme-toggle"
+        onClick={toggleTheme}
+        title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+      >
+        {theme === 'dark' ? '☀️' : '🌙'}
+      </button>
+
       <div className="content">
         <header className="topbar">
           <div className="brand">

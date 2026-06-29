@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from './AppContext'
 import Header from './Header'
 import Footer from './Footer'
+import SwipeableCard from './SwipeableCard'
 import './pages.css'
 
 export default function AllCollections() {
@@ -18,13 +19,6 @@ export default function AllCollections() {
   const filteredCollections = selectedFilter === 'all' 
     ? collections 
     : collections.filter(c => c.category === selectedFilter.toLowerCase())
-
-  const handleDelete = async (e, id) => {
-    e.stopPropagation()
-    if (window.confirm('Delete this collection? This cannot be undone.')) {
-      await deleteCollection(id)
-    }
-  }
 
   return (
     <main className="page-collections">
@@ -52,35 +46,44 @@ export default function AllCollections() {
             <div className="empty-state">No collections yet</div>
           ) : (
             filteredCollections.map(collection => (
-              <div 
-                key={collection.id} 
-                className="collection-card"
-                onClick={() => navigate(`/collection/${collection.id}`)}
+              <SwipeableCard
+                key={collection.id}
+                id={collection.id}
+                actions={[
+                  { type: 'edit', handler: () => navigate(`/collection/${collection.id}/edit`) },
+                  { type: 'delete', handler: async () => {
+                    if (window.confirm('Delete this collection? This cannot be undone.')) {
+                      await deleteCollection(collection.id)
+                    }
+                  }},
+                ]}
               >
-                <div className="card-icon">⚽</div>
-                <div className="card-content">
-                  <h3 className="card-title">{collection.title}</h3>
-                  <p className="card-date">{collection.date}</p>
-                  <span className="card-category">{collection.category.toUpperCase()}</span>
+                <div 
+                  className="collection-card"
+                  onClick={() => navigate(`/collection/${collection.id}`)}
+                >
+                  <div className="card-icon">⚽</div>
+                  <div className="card-content">
+                    <h3 className="card-title">{collection.title}</h3>
+                    <p className="card-date">{collection.date}</p>
+                    <span className="card-category">{collection.category.toUpperCase()}</span>
+                  </div>
+                  <div className="card-stats">
+                    <div className="stat-row">
+                      <span className="label">Collected</span>
+                      <span className="value">₹{collection.collected}</span>
+                    </div>
+                    <div className="stat-row">
+                      <span className="label">Target</span>
+                      <span className="value">₹{collection.amount}</span>
+                    </div>
+                    <div className="stat-row">
+                      <span className="label">Pending</span>
+                      <span className="value pending">₹{collection.pending}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-stats">
-                  <div className="stat-row">
-                    <span className="label">Collected</span>
-                    <span className="value">₹{collection.collected}</span>
-                  </div>
-                  <div className="stat-row">
-                    <span className="label">Target</span>
-                    <span className="value">₹{collection.amount}</span>
-                  </div>
-                  <div className="stat-row">
-                    <span className="label">Pending</span>
-                    <span className="value pending">₹{collection.pending}</span>
-                  </div>
-                </div>
-                <button className="delete-btn" onClick={(e) => handleDelete(e, collection.id)} title="Delete collection">
-                  🗑
-                </button>
-              </div>
+              </SwipeableCard>
             ))
           )}
         </div>

@@ -47,6 +47,8 @@ export function AppProvider({ children }) {
           collected: Number(cp.amount_paid),
           paid: cp.status === 'paid' ? 1 : 0,
           pending: Number(cp.amount_due) - Number(cp.amount_paid),
+          upiId: cp.organiser_upi?.upi_id || null,
+          organiserName: cp.organiser_upi?.full_name || 'Organiser',
         }))
         setCollections(mapped)
       }
