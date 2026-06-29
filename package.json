@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts build && cp build/index.html build/404.html",
     "test": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

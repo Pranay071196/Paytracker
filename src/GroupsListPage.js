@@ -26,7 +26,7 @@ export default function GroupsListPage() {
   }, [profile])
 
   const shareInvite = (group) => {
-    const link = `${window.location.origin}/join-group/${group.invite_code}`
+    const link = `${window.location.origin}${process.env.PUBLIC_URL || ''}/join-group/${group.invite_code}`
     if (navigator.share) {
       navigator.share({ title: group.name, text: `Join my group on PayTracker: ${link}` })
     } else {

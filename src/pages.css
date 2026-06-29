@@ -351,6 +351,10 @@
   color: white;
 }
 
+.page-landing {
+  min-height: 100vh;
+}
+
 .page.landing-page .content {
   position: relative;
   z-index: 1;

@@ -31,7 +31,7 @@ export default function GroupDetailPage() {
     }
   }, [profile, groupId])
 
-  const inviteLink = group ? `${window.location.origin}/join-group/${group.invite_code}` : ''
+  const inviteLink = group ? `${window.location.origin}${process.env.PUBLIC_URL || ''}/join-group/${group.invite_code}` : ''
 
   const copyLink = () => {
     navigator.clipboard.writeText(inviteLink)
