@@ -71,13 +71,13 @@ export default function OrganiserDashboard() {
             <div className="action-icon">+</div>
             <div className="action-label">Create</div>
           </div>
+          <div className="action-card" onClick={() => navigate('/groups')}>
+            <div className="action-icon">👥</div>
+            <div className="action-label">Groups</div>
+          </div>
           <div className="action-card">
             <div className="action-icon">⟳</div>
             <div className="action-label">Reconcile</div>
-          </div>
-          <div className="action-card">
-            <div className="action-icon">↗</div>
-            <div className="action-label">Invite</div>
           </div>
           <div className="action-card">
             <div className="action-icon">📈</div>

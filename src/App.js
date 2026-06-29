@@ -17,6 +17,10 @@ import CreateCollection from './CreateCollection'
 import AllCollections from './AllCollections'
 import ReconcilePage from './ReconcilePage'
 import SettingsPage from './SettingsPage'
+import GroupsListPage from './GroupsListPage'
+import CreateGroupPage from './CreateGroupPage'
+import GroupDetailPage from './GroupDetailPage'
+import GroupJoinPage from './GroupJoinPage'
 
 function PrivateRoute({ session, children }) {
   if (!session) {
@@ -105,6 +109,10 @@ function AppContent({ session }) {
           <Route path="/collections" element={<PrivateRoute session={session}><AllCollections /></PrivateRoute>} />
           <Route path="/reconcile" element={<PrivateRoute session={session}><ReconcilePage /></PrivateRoute>} />
           <Route path="/settings" element={<PrivateRoute session={session}><SettingsPage /></PrivateRoute>} />
+          <Route path="/groups" element={<PrivateRoute session={session}><GroupsListPage /></PrivateRoute>} />
+          <Route path="/create-group" element={<PrivateRoute session={session}><CreateGroupPage /></PrivateRoute>} />
+          <Route path="/groups/:groupId" element={<PrivateRoute session={session}><GroupDetailPage /></PrivateRoute>} />
+          <Route path="/join-group/:inviteCode" element={<GroupJoinPage />} />
           <Route
             path="/home"
             element={

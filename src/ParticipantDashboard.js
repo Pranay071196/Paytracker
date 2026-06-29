@@ -104,7 +104,7 @@ export default function ParticipantDashboard() {
                     <a
                       href={upiLink}
                       target="_blank"
-                      rel="noopener"
+                      rel="noreferrer"
                       className="upi-pay-btn"
                       onClick={e => e.stopPropagation()}
                       title={`Pay via UPI`}

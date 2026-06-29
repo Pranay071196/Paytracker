@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useApp } from './AppContext'
 import { createCollectionWithParticipants } from './lib/supabaseHelpers'
 import { updateProfileUpiId } from './lib/supabaseHelpers'
+import { fetchGroupsForOrganiser, fetchGroupMembers } from './lib/supabaseGroupHelpers'
 import { normalizePhoneNumber } from './LoginScreen'
 import './pages.css'
 
@@ -17,12 +18,31 @@ export default function CreateCollection() {
   const [upiId, setUpiId] = useState(profile?.upi_id || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [groups, setGroups] = useState([])
+  const [selectedGroupId, setSelectedGroupId] = useState('')
+  const [groupMembers, setGroupMembers] = useState([])
+  const [contactName, setContactName] = useState('')
+  const [contactPhone, setContactPhone] = useState('')
 
   const categories = [
     { id: 'sports', label: 'Sports', icon: '⚽' },
     { id: 'travel', label: 'Travel', icon: '✈' },
     { id: 'events', label: 'Events', icon: '📅' }
   ]
+
+  useEffect(() => {
+    if (profile?.id) {
+      fetchGroupsForOrganiser(profile.id).then(setGroups).catch(() => {})
+    }
+  }, [profile])
+
+  useEffect(() => {
+    if (selectedGroupId) {
+      fetchGroupMembers(selectedGroupId).then(setGroupMembers).catch(() => setGroupMembers([]))
+    } else {
+      setGroupMembers([])
+    }
+  }, [selectedGroupId])
 
   const addParticipant = () => {
     const normalized = normalizePhoneNumber(newPhone)
@@ -34,6 +54,24 @@ export default function CreateCollection() {
 
   const removeParticipant = (phone) => {
     setParticipants(participants.filter(p => p !== phone))
+  }
+
+  const toggleGroupMember = (member) => {
+    const phone = member.phone
+    if (participants.includes(phone)) {
+      setParticipants(prev => prev.filter(p => p !== phone))
+    } else {
+      setParticipants(prev => [...prev, phone])
+    }
+  }
+
+  const addFromContact = () => {
+    const phone = normalizePhoneNumber(contactPhone)
+    if (phone && !participants.includes(phone)) {
+      setParticipants(prev => [...prev, phone])
+      setContactName('')
+      setContactPhone('')
+    }
   }
 
   const handleCreateCollection = async () => {
@@ -146,6 +184,59 @@ export default function CreateCollection() {
                   <button onClick={() => removeParticipant(phone)}>✕</button>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {groups.length > 0 && (
+            <div className="form-group">
+              <label>ADD FROM GROUP</label>
+              <select
+                className="form-input"
+                value={selectedGroupId}
+                onChange={(e) => setSelectedGroupId(e.target.value)}
+              >
+                <option value="">Select a group</option>
+                {groups.map(g => (
+                  <option key={g.id} value={g.id}>{g.name}</option>
+                ))}
+              </select>
+              {selectedGroupId && groupMembers.length > 0 && (
+                <div className="group-members-list">
+                  {groupMembers.map(member => (
+                    <label key={member.id} className="group-member-check">
+                      <input
+                        type="checkbox"
+                        checked={participants.includes(member.phone)}
+                        onChange={() => toggleGroupMember(member)}
+                      />
+                      <span>{member.name || member.phone}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="form-group">
+            <label>ADD FROM CONTACTS</label>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <input
+                type="text"
+                placeholder="Name"
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                className="form-input"
+                style={{ flex: 1 }}
+              />
+              <input
+                type="tel"
+                placeholder="Phone"
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+                className="form-input"
+                style={{ flex: 1 }}
+              />
+              <button className="add-btn" onClick={addFromContact} disabled={!contactPhone.trim()}>+</button>
             </div>
           </div>
 
