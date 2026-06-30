@@ -158,16 +158,15 @@ export default function ParticipantDashboard() {
                   </div>
                   <div className="item-amount">₹{collection.amount}</div>
                   {upiLink ? (
-                    <a
-                      href={upiLink}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
                       className="upi-pay-btn"
-                      onClick={e => e.stopPropagation()}
-                      title={`Pay via UPI`}
+                      onClick={e => {
+                        e.stopPropagation()
+                        window.location.href = upiLink
+                      }}
                     >
                       Pay
-                    </a>
+                    </button>
                   ) : (
                     <div className="item-status pending-badge">{collection.status === 'paid' ? 'Paid' : 'Pending'}</div>
                   )}

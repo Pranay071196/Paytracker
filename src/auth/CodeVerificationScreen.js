@@ -42,10 +42,10 @@ export default function CodeVerificationScreen() {
             <p className="description">We sent a secure sign-in link to {email || 'your email'}.</p>
           </section>
 
-          <section className="header">
+          <div className="body">
             <p className="note">Open the link in your inbox to continue.</p>
             {error ? <p className="note" style={{ color: '#b91c1c' }}>{error}</p> : null}
-          </section>
+          </div>
 
           <footer className="footer">
             <button className="button" onClick={handleResend}>
