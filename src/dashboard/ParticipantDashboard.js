@@ -20,12 +20,48 @@ export default function ParticipantDashboard() {
   const [joiningGroup, setJoiningGroup] = useState(false)
   const [pickerCollection, setPickerCollection] = useState(null)
 
-  const upiApps = [
-    { id: 'gpay', label: 'Google Pay', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}` },
-    { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
-    { id: 'paytm', label: 'Paytm', icon: '💰', url: (c) => `paytmmp://upiPay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}` },
-    { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}` },
-  ]
+const buildUpiUrl = (c) => {
+  const params = new URLSearchParams({
+    pa: c.upiId,
+    pn: c.organiserName,
+    am: Number(c.amount).toFixed(2),
+    cu: 'INR',
+    tn: `Payment for ${c.title}`,
+    tr: String(Date.now()),
+  });
+
+  return `upi://pay?${params.toString()}`;
+};
+
+const upiApps = [
+  {
+    id: 'gpay',
+    label: 'Google Pay',
+    icon: '💳',
+    url: (c) =>
+      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`,
+  },
+  {
+    id: 'phonepe',
+    label: 'PhonePe',
+    icon: '📱',
+    url: (c) =>
+      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=com.phonepe.app;end`,
+  },
+  {
+    id: 'paytm',
+    label: 'Paytm',
+    icon: '💰',
+    url: (c) =>
+      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=net.one97.paytm;end`,
+  },
+  {
+    id: 'other',
+    label: 'Other UPI app',
+    icon: '🏦',
+    url: buildUpiUrl,
+  },
+];
 
   useEffect(() => {
     if (profile && profile.id) {
