@@ -15,6 +15,7 @@ import RoleSelection from './auth/RoleSelection'
 import OrganiserDashboard from './dashboard/OrganiserDashboard'
 import ParticipantDashboard from './dashboard/ParticipantDashboard'
 import CreateCollection from './collections/CreateCollection'
+import EditCollection from './collections/EditCollection'
 import AllCollections from './collections/AllCollections'
 import ReconcilePage from './collections/ReconcilePage'
 import SettingsPage from './settings/SettingsPage'
@@ -107,6 +108,7 @@ function AppContent({ session }) {
           <Route path="/organiser-dashboard" element={<PrivateRoute session={session}><OrganiserDashboard /></PrivateRoute>} />
           <Route path="/participant-dashboard" element={<PrivateRoute session={session}><ParticipantDashboard /></PrivateRoute>} />
           <Route path="/create-collection" element={<PrivateRoute session={session}><CreateCollection /></PrivateRoute>} />
+          <Route path="/collection/:collectionId/edit" element={<PrivateRoute session={session}><EditCollection /></PrivateRoute>} />
           <Route path="/collections" element={<PrivateRoute session={session}><AllCollections /></PrivateRoute>} />
           <Route path="/reconcile" element={<PrivateRoute session={session}><ReconcilePage /></PrivateRoute>} />
           <Route path="/settings" element={<PrivateRoute session={session}><SettingsPage /></PrivateRoute>} />

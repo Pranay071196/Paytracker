@@ -200,6 +200,107 @@ export async function createCollectionWithParticipants(
   return { collection, participants }
 }
 
+export async function fetchParticipantsForCollection(collectionId) {
+  const { data, error } = await supabase
+    .from('collection_participants')
+    .select('*')
+    .eq('collection_id', collectionId)
+
+  if (error) throw error
+  return data || []
+}
+
+export async function updateCollectionWithParticipants(
+  collectionId,
+  organiserProfileId,
+  { title, category, targetAmount, participantPhones }
+) {
+  const { data: collection, error: collError } = await supabase
+    .from('collections')
+    .update({
+      title,
+      category,
+      target_amount: targetAmount,
+    })
+    .eq('id', collectionId)
+    .eq('organiser_profile_id', organiserProfileId)
+    .select()
+    .maybeSingle()
+
+  if (collError) throw collError
+  if (!collection) throw new Error('Failed to update collection')
+
+  const { data: existingParticipants } = await supabase
+    .from('collection_participants')
+    .select('*')
+    .eq('collection_id', collectionId)
+
+  const existingPhones = (existingParticipants || []).map(p => p.participant_phone)
+  const phonesToRemove = existingPhones.filter(p => !participantPhones.includes(p))
+
+  if (phonesToRemove.length > 0) {
+    const { error: delError } = await supabase
+      .from('collection_participants')
+      .delete()
+      .eq('collection_id', collectionId)
+      .in('participant_phone', phonesToRemove)
+
+    if (delError) throw delError
+  }
+
+  const amountDue = Math.ceil(targetAmount / participantPhones.length)
+  const phonesToAdd = participantPhones.filter(p => !existingPhones.includes(p))
+  const newParticipantRecords = []
+
+  for (const phone of phonesToAdd) {
+    let { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('phone', phone)
+      .maybeSingle()
+
+    if (!profile) {
+      const { data: newProfile, error: profError } = await supabase
+        .from('profiles')
+        .insert({ phone, role: 'participant', full_name: phone })
+        .select()
+        .maybeSingle()
+
+      if (profError) throw profError
+      if (!newProfile) throw new Error(`Failed to create profile for ${phone}`)
+      profile = newProfile
+    }
+
+    newParticipantRecords.push({
+      collection_id: collectionId,
+      participant_profile_id: profile.id,
+      participant_phone: phone,
+      amount_due: amountDue,
+      amount_paid: 0,
+      status: 'pending',
+    })
+  }
+
+  if (newParticipantRecords.length > 0) {
+    const { error: addError } = await supabase
+      .from('collection_participants')
+      .insert(newParticipantRecords)
+      .select()
+
+    if (addError) throw addError
+  }
+
+  const { data: allParticipants, error: updateError } = await supabase
+    .from('collection_participants')
+    .update({ amount_due: amountDue })
+    .eq('collection_id', collectionId)
+    .select()
+
+  if (updateError) throw updateError
+
+  return { collection, participants: allParticipants || [] }
+}
+
 export async function deleteCollectionFromSupabase(collectionId) {
   const { error } = await supabase
     .from('collections')

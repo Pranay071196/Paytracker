@@ -277,3 +277,82 @@
   color: #9ca3af;
   cursor: not-allowed;
 }
+
+/* ─── UPI App Picker ─── */
+.upi-picker {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.upi-picker-content {
+  padding: 16px 28px 28px;
+}
+
+.picker-subtitle {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.upi-app-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 38, 75, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #f8fafc;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.upi-app-btn:hover {
+  background: rgba(15, 38, 75, 0.7);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.upi-app-btn:active {
+  transform: scale(0.98);
+}
+
+.upi-app-btn.other {
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.upi-app-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.upi-app-label {
+  flex: 1;
+  font-weight: 600;
+}
+
+.upi-app-arrow {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.app-wrapper.theme-light .upi-app-btn {
+  background: rgba(242, 252, 245, 0.5);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #000000;
+}
+
+.app-wrapper.theme-light .upi-app-btn:hover {
+  background: rgba(242, 252, 245, 0.8);
+}
+
+.app-wrapper.theme-light .picker-subtitle {
+  color: #6b7280;
+}

@@ -18,6 +18,14 @@ export default function ParticipantDashboard() {
   const [inviteCode, setInviteCode] = useState('')
   const [joinMsg, setJoinMsg] = useState('')
   const [joiningGroup, setJoiningGroup] = useState(false)
+  const [pickerCollection, setPickerCollection] = useState(null)
+
+  const upiApps = [
+    { id: 'gpay', label: 'Google Pay', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}` },
+    { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
+    { id: 'paytm', label: 'Paytm', icon: '💰', url: (c) => `paytmmp://upiPay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}` },
+    { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}` },
+  ]
 
   useEffect(() => {
     if (profile && profile.id) {
@@ -136,16 +144,14 @@ export default function ParticipantDashboard() {
             <div className="empty-state">No pending collections</div>
           ) : (
             pendingCollections.map(collection => {
-              const upiLink = collection.upiId
-                ? `upi://pay?pa=${collection.upiId}&pn=${encodeURIComponent(collection.organiserName)}&am=${Number(collection.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${collection.title}`)}&tr=${Date.now()}`
-                : null
+              const hasUpi = collection.upiId
               return (
               <SwipeableCard
                 key={collection.id}
                 id={collection.id}
                 actions={
-                  upiLink
-                    ? [{ type: 'pay', handler: () => { window.location.href = upiLink; } }, { type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
+                  hasUpi
+                    ? [{ type: 'pay', handler: () => setPickerCollection(collection) }, { type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
                     : [{ type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
                 }
               >
@@ -157,12 +163,12 @@ export default function ParticipantDashboard() {
                     <div className="item-meta">Due soon</div>
                   </div>
                   <div className="item-amount">₹{collection.amount}</div>
-                  {upiLink ? (
+                  {hasUpi ? (
                     <button
                       className="upi-pay-btn"
                       onClick={e => {
                         e.stopPropagation()
-                        window.location.href = upiLink
+                        setPickerCollection(collection)
                       }}
                     >
                       Pay
@@ -178,6 +184,31 @@ export default function ParticipantDashboard() {
       </section>
 
       <Footer />
+
+      {pickerCollection && (
+        <div className="modal-screen" onClick={() => setPickerCollection(null)}>
+          <div className="modal-card upi-picker" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h1>Pay via</h1>
+              <button className="close-btn" onClick={() => setPickerCollection(null)}>✕</button>
+            </div>
+            <div className="modal-content upi-picker-content">
+              <p className="picker-subtitle">Pay ₹{pickerCollection.amount} for {pickerCollection.title}</p>
+              {upiApps.map(app => (
+                <button
+                  key={app.id}
+                  className={`upi-app-btn ${app.id === 'other' ? 'other' : ''}`}
+                  onClick={() => { window.location.href = app.url(pickerCollection) }}
+                >
+                  <span className="upi-app-icon">{app.icon}</span>
+                  <span className="upi-app-label">{app.label}</span>
+                  <span className="upi-app-arrow">→</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

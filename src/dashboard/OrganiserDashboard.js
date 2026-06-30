@@ -101,6 +101,7 @@ export default function OrganiserDashboard() {
                   id={collection.id}
                   actions={[
                     { type: 'view', handler: () => navigate(`/collection/${collection.id}`) },
+                    { type: 'edit', handler: () => navigate(`/collection/${collection.id}/edit`) },
                     { type: 'delete', handler: async () => {
                       if (window.confirm('Delete this collection?')) {
                         await deleteCollection(collection.id)
