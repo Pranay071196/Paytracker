@@ -1,4 +1,4 @@
-import { normalizeEmail, normalizePhoneNumber } from './LoginScreen'
+import { normalizeEmail, normalizePhoneNumber } from './auth/LoginScreen'
 
 describe('normalizeEmail', () => {
   it('trims and lowercases the email address', () => {
