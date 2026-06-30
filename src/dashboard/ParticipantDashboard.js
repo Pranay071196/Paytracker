@@ -20,12 +20,13 @@ export default function ParticipantDashboard() {
   const [joiningGroup, setJoiningGroup] = useState(false)
   const [pickerCollection, setPickerCollection] = useState(null)
 
-const upiApps = [
-  { id: 'gpay', label: 'Google Pay', icon: '💳' },
-  { id: 'phonepe', label: 'PhonePe', icon: '📱' },
-  { id: 'paytm', label: 'Paytm', icon: '💰' },
-  { id: 'other', label: 'Other UPI app', icon: '🏦' },
-];
+  const upiApps = [
+    { id: 'gpay', label: 'Google Pay', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+    { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
+    { id: 'paytm', label: 'Paytm', icon: '💰', url: (c) => `paytmmp://upiPay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+    { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+    { id: 'gpay', label: 'Google Pay 1', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR`},
+  ]
 
   useEffect(() => {
     if (profile && profile.id) {
@@ -198,13 +199,7 @@ const upiApps = [
                 <button
                   key={app.id}
                   className={`upi-app-btn ${app.id === 'other' ? 'other' : ''}`}
-                  onClick={() => {
-                    const c = pickerCollection
-                    //const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}`
-                    const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR`
-                    setPickerCollection(null)
-                    window.location.href = url
-                  }}
+                  onClick={() => { window.location.href = app.url(pickerCollection) }}
                 >
                   <span className="upi-app-icon">{app.icon}</span>
                   <span className="upi-app-label">{app.label}</span>
