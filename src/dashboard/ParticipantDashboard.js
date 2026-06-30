@@ -137,7 +137,7 @@ export default function ParticipantDashboard() {
           ) : (
             pendingCollections.map(collection => {
               const upiLink = collection.upiId
-                ? `upi://pay?pa=${encodeURIComponent(collection.upiId)}&pn=${encodeURIComponent(collection.organiserName)}&am=${collection.amount}&cu=INR&tn=${encodeURIComponent(`Payment for ${collection.title}`)}`
+                ? `upi://pay?pa=${collection.upiId}&pn=${encodeURIComponent(collection.organiserName)}&am=${Number(collection.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${collection.title}`)}&mode=04`
                 : null
               return (
               <SwipeableCard
@@ -145,7 +145,7 @@ export default function ParticipantDashboard() {
                 id={collection.id}
                 actions={
                   upiLink
-                    ? [{ type: 'pay', handler: () => window.open(upiLink, '_blank', 'noopener') }, { type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
+                    ? [{ type: 'pay', handler: () => { window.location.href = upiLink; } }, { type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
                     : [{ type: 'view', handler: () => navigate(`/collection/${collection.id}`) }]
                 }
               >

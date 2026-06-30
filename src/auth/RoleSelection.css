@@ -13,7 +13,7 @@
   width: min(460px, 100%);
   background: #1a2332;
   border-radius: 36px;
-  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.3);
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   padding: 30px 28px 24px;
   border: 1px solid #2d3a4f;
@@ -54,23 +54,26 @@
   gap: 18px;
   padding: 22px 20px;
   border-radius: 28px;
-  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
   background: rgba(15, 38, 75, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: all 0.3s ease;
   color: #f8fafc;
 }
 
 .card-role:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .card-role.primary {
   background: #0f172a;
   color: white;
-  border-color: transparent;
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .indicator {
@@ -167,7 +170,8 @@
 
 .app-wrapper.theme-light .card-role {
   background: rgba(242, 252, 245, 0.5);
-  border-color: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #000000;
 }
 
@@ -180,8 +184,10 @@
 }
 
 .app-wrapper.theme-light .card-role.primary {
-  background: #000000;
-  color: #ffffff;
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #000000;
 }
 
 .app-wrapper.theme-light .continue {
