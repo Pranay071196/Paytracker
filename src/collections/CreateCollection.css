@@ -1,0 +1,262 @@
+/* ─── Create Collection Modal ─── */
+.modal-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-card {
+  width: min(480px, 100%);
+  background: #1a2332;
+  border-radius: 36px;
+  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid #2d3a4f;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #2d3a4f;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #f8fafc;
+}
+
+.modal-header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  flex: 1;
+  color: #f8fafc;
+}
+
+.modal-content {
+  padding: 28px;
+}
+
+.form-group {
+  margin-bottom: 28px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid #2d3a4f;
+  font-size: 1rem;
+  color: #f8fafc;
+  background: #0f172a;
+  box-sizing: border-box;
+}
+
+.form-input.filled {
+  background: #0f172a;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.category-btn {
+  padding: 14px 12px;
+  border-radius: 20px;
+  border: 1px solid #2d3a4f;
+  background: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #f8fafc;
+}
+
+.category-btn.active {
+  background: #1a5f4a;
+  color: white;
+  border-color: #1a5f4a;
+}
+
+.cat-icon {
+  font-size: 1.5rem;
+}
+
+.amount-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;
+  border: 1px solid #2d3a4f;
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.currency {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.amount-input input {
+  border: none;
+  background: none;
+  flex: 1;
+  font-size: 1rem;
+  color: #f8fafc;
+}
+
+.amount-split {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.participant-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;
+  border: 1px solid #2d3a4f;
+  border-radius: 18px;
+  padding: 8px;
+}
+
+.phone-prefix {
+  padding: 6px 12px;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.participant-input input {
+  border: none;
+  background: none;
+  flex: 1;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #f8fafc;
+}
+
+.add-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1a5f4a;
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.helper-text {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.participants-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.participant-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #0f172a;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  color: #f8fafc;
+  border: 1px solid #2d3a4f;
+}
+
+.participant-tag button {
+  background: none;
+  border: none;
+  color: #f8fafc;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-footer {
+  padding: 24px 28px;
+  border-top: 1px solid #2d3a4f;
+}
+
+.create-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 100px;
+  border: none;
+  background: #1a5f4a;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.create-btn:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.create-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.group-members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.group-member-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 38, 75, 0.3);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #f8fafc;
+}
+
+.app-wrapper.theme-light .group-member-check {
+  background: rgba(0, 0, 0, 0.03);
+  color: #000000;
+}
+
+.group-member-check input[type="checkbox"] {
+  accent-color: #1a5f4a;
+  width: 18px;
+  height: 18px;
+}

@@ -1,0 +1,80 @@
+.home-page {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.page-screen {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.home-card {
+  background: #1a2332;
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.options-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.option-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #2d3a4f;
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+.option-card:hover {
+  border-color: #3d4a5f;
+}
+
+.action-row {
+  display: grid;
+  gap: 14px;
+}
+
+.button {
+  width: 100%;
+  padding: 17px;
+  border-radius: 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.button.primary {
+  background: #1a5f4a;
+  color: #ffffff;
+}
+
+.button.secondary {
+  background: #2d3a4f;
+  color: #f8fafc;
+}
+
+.home-footer {
+  margin-top: auto;
+  padding: 28px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.88rem;
+}

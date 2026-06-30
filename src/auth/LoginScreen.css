@@ -1,0 +1,202 @@
+/* ─── Login Screen ─── */
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.card {
+  width: min(420px, 100%);
+  background: rgba(20, 48, 88, 0.5);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 32px;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.3);
+  overflow: hidden;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-header {
+  padding: 32px 28px 24px;
+}
+
+.step {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #f8fafc;
+}
+
+.description {
+  margin: 20px 0 0;
+  color: #cbd5e1;
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.input-panel {
+  padding: 0 28px 28px;
+}
+
+.field-group {
+  margin-top: 28px;
+  display: grid;
+  gap: 14px;
+}
+
+.label {
+  display: block;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  margin-bottom: 10px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.country {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0f172a;
+  border: 1px solid #2d3a4f;
+  border-radius: 18px;
+  padding: 14px 12px;
+  font-size: 0.95rem;
+  color: #f8fafc;
+}
+
+.country span.flag {
+  font-size: 1.05rem;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid #2d3a4f;
+  font-size: 1rem;
+  color: #f8fafc;
+  background: #0f172a;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #64748b;
+}
+
+.note {
+  margin-top: 16px;
+  font-size: 0.92rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 28px 32px;
+  border-top: 1px solid #2d3a4f;
+  background: #0f172a;
+}
+
+.button {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: #0f172a;
+  color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+/* ─── Dark override for login elements ─── */
+.app-wrapper.theme-dark .screen {
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.app-wrapper.theme-dark .card {
+  background: rgba(20, 48, 88, 0.5);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-wrapper.theme-dark .input {
+  background: #0f172a;
+  border-color: #2d3a4f;
+  color: #f8fafc;
+}
+
+/* ─── Light override for login elements ─── */
+.app-wrapper.theme-light .screen {
+  background: #f8f7f2;
+}
+
+.app-wrapper.theme-light .card {
+  background: rgba(242, 252, 245, 0.55);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.app-wrapper.theme-light .card-header h1 {
+  color: #000000;
+}
+
+.app-wrapper.theme-light .description {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .label {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .input {
+  background: #f8fafc;
+  border-color: #d1d5db;
+  color: #000000;
+}
+
+.app-wrapper.theme-light .input::placeholder {
+  color: #9ca3af;
+}
+
+.app-wrapper.theme-light .country {
+  background: #f8fafc;
+  border-color: #d1d5db;
+  color: #000000;
+}
+
+.app-wrapper.theme-light .note {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .button {
+  background: #000000;
+  color: #ffffff;
+}
+
+.app-wrapper.theme-light .footer {
+  background: rgba(242, 252, 245, 0.55);
+  border-color: rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,29 @@
+.invite-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: rgba(15, 38, 75, 0.4);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 16px;
+}
+
+.app-wrapper.theme-light .invite-row {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.invite-link-text {
+  flex: 1;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}

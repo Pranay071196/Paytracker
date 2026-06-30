@@ -1,0 +1,199 @@
+/* ─── Role Selection ─── */
+.screen-alt {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.content-alt {
+  width: min(460px, 100%);
+  background: #1a2332;
+  border-radius: 36px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.3);
+  overflow: hidden;
+  padding: 30px 28px 24px;
+  border: 1px solid #2d3a4f;
+}
+
+.content-alt .eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.content-alt h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: #f8fafc;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+  color: #cbd5e1;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.option {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.card-role {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 22px 20px;
+  border-radius: 28px;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 38, 75, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #f8fafc;
+}
+
+.card-role:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-role.primary {
+  background: #0f172a;
+  color: white;
+  border-color: transparent;
+}
+
+.indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  border: 1px solid #475569;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.indicator.active {
+  border-color: #10b981;
+  background: #10b981;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 18px;
+  background: #1e293b;
+  display: grid;
+  place-items: center;
+  color: #f8fafc;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.card-role.primary .icon {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.details {
+  flex: 1;
+}
+
+.details strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.details p {
+  margin: 0;
+  color: inherit;
+  opacity: 0.8;
+  line-height: 1.7;
+  font-size: 0.96rem;
+}
+
+.continue {
+  display: inline-flex;
+  justify-content: center;
+  width: calc(100% - 48px);
+  padding: 18px 20px;
+  border-radius: 100px;
+  background: #0f172a;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  margin: 24px;
+  box-sizing: border-box;
+}
+
+.continue:hover {
+  opacity: 0.9;
+}
+
+/* ─── Theme overrides ─── */
+.app-wrapper.theme-light .screen-alt {
+  background: #f8f7f2;
+}
+
+.app-wrapper.theme-light .content-alt {
+  background: rgba(242, 252, 245, 0.55);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.app-wrapper.theme-light .content-alt .eyebrow {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .content-alt h1 {
+  color: #000000;
+}
+
+.app-wrapper.theme-light .subtitle {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .card-role {
+  background: rgba(242, 252, 245, 0.5);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #000000;
+}
+
+.app-wrapper.theme-light .card-role strong {
+  color: #000000;
+}
+
+.app-wrapper.theme-light .card-role p {
+  color: #6b7280;
+}
+
+.app-wrapper.theme-light .card-role.primary {
+  background: #000000;
+  color: #ffffff;
+}
+
+.app-wrapper.theme-light .continue {
+  background: #000000;
+  color: #ffffff;
+}
+
+.app-wrapper.theme-dark .screen-alt {
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.app-wrapper.theme-dark .content-alt {
+  background: #1a2332;
+  border-color: #2d3a4f;
+}

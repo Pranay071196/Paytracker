@@ -1,0 +1,197 @@
+/* ─── All Collections ─── */
+.page-collections {
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 28px 18px 100px 18px;
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.panel-collections {
+  background: #1a2332;
+  border-radius: 32px;
+  padding: 26px 22px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  border: 1px solid #2d3a4f;
+}
+
+.collections-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.collections-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #f8fafc;
+}
+
+.add-collection-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1a5f4a;
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.filter-tab {
+  padding: 10px 16px;
+  border-radius: 9999px;
+  background: rgba(15, 38, 75, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.filter-tab.active {
+  background: #1a5f4a;
+  color: white;
+  border-color: #1a5f4a;
+}
+
+.collections-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.collection-card {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(15, 38, 75, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: start;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #f8fafc;
+  position: relative;
+}
+
+.collection-card .delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  padding: 4px 8px;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.collection-card:hover .delete-btn {
+  opacity: 0.6;
+}
+
+.collection-card .delete-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.collection-card:hover {
+  border-color: #3d4a5f;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.card-content {
+  min-width: 0;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.card-date {
+  margin: 4px 0 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.card-category {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.stat-row .label {
+  color: #64748b;
+  min-width: 65px;
+}
+
+.stat-row .value {
+  color: #f8fafc;
+  font-weight: 600;
+  text-align: right;
+}
+
+.stat-row .value.pending {
+  color: #d97706;
+}
+
+.recent-item,
+.collection-card,
+.collection-item,
+.reconcile-item,
+.group-card {
+  border-radius: inherit;
+}
+
+.recent-item:active,
+.collection-card:active,
+.collection-item:active,
+.group-card:active {
+  transform: scale(0.98);
+  transition: transform 0.15s;
+}

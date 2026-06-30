@@ -1,0 +1,100 @@
+.group-card {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(15, 38, 75, 0.5);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.app-wrapper.theme-light .group-card {
+  background: rgba(242, 252, 245, 0.55);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.group-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.group-card:active {
+  transform: scale(0.98);
+}
+
+.recent-item,
+.collection-card,
+.collection-item,
+.reconcile-item,
+.group-card {
+  border-radius: inherit;
+}
+
+.recent-item:active,
+.collection-card:active,
+.collection-item:active,
+.group-card:active {
+  transform: scale(0.98);
+  transition: transform 0.15s;
+}
+
+.group-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.group-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.group-info {
+  flex: 1;
+}
+
+.group-name {
+  margin: 0;
+  font-size: 1rem;
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.app-wrapper.theme-light .group-name {
+  color: #000000;
+}
+
+.group-whatsapp {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.group-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group-invite-code {
+  font-size: 0.78rem;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.share-btn {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #1a5f4a;
+  color: #fff;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.share-btn:hover {
+  background: #15803d;
+}

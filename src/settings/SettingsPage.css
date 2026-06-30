@@ -1,0 +1,166 @@
+/* ─── Settings Page ─── */
+.page-settings {
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 28px 18px 100px 18px;
+  background: linear-gradient(180deg, #1a1f35 0%, #0f1419 100%);
+}
+
+.panel-settings {
+  background: #1a2332;
+  border-radius: 32px;
+  padding: 26px 22px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  border: 1px solid #2d3a4f;
+}
+
+.settings-header {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #2d3a4f;
+}
+
+.avatar-large {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1a5f4a;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #f8fafc;
+}
+
+.header-text p {
+  margin: 6px 0 8px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.role-badge {
+  display: inline-block;
+  background: #2d3a4f;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.settings-section {
+  margin-bottom: 28px;
+}
+
+.section-title-settings {
+  margin: 0 0 16px 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid #2d3a4f;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.item-icon-settings {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.item-text-settings {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #f8fafc;
+}
+
+.item-arrow {
+  color: #475569;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.status-connected {
+  padding: 6px 10px;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.share-btn {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #1a5f4a;
+  color: #fff;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.share-btn:hover {
+  background: #15803d;
+}
+
+.share-btn:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid #2d3a4f;
+  font-size: 1rem;
+  color: #f8fafc;
+  background: #0f172a;
+  box-sizing: border-box;
+}
+
+.button {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: #0f172a;
+  color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  opacity: 0.9;
+}

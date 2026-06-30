@@ -1,0 +1,31 @@
+.page-screen {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.home-card {
+  background: #1a2332;
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.action-row {
+  display: grid;
+  gap: 14px;
+}
+
+.button {
+  width: 100%;
+  padding: 17px;
+  border-radius: 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+}

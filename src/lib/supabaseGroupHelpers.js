@@ -146,3 +146,12 @@ export async function updateGroupMemberName(memberId, name) {
   if (error) throw error
   return data
 }
+
+export async function removeGroupMember(memberId) {
+  const { error } = await supabase
+    .from('group_members')
+    .delete()
+    .eq('id', memberId)
+
+  if (error) throw error
+}
