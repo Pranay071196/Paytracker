@@ -200,7 +200,8 @@ const upiApps = [
                   className={`upi-app-btn ${app.id === 'other' ? 'other' : ''}`}
                   onClick={() => {
                     const c = pickerCollection
-                    const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}`
+                    //const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}`
+                    const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR`
                     setPickerCollection(null)
                     window.location.href = url
                   }}
