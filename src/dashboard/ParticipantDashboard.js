@@ -20,47 +20,11 @@ export default function ParticipantDashboard() {
   const [joiningGroup, setJoiningGroup] = useState(false)
   const [pickerCollection, setPickerCollection] = useState(null)
 
-const buildUpiUrl = (c) => {
-  const params = new URLSearchParams({
-    pa: c.upiId,
-    pn: c.organiserName,
-    am: Number(c.amount).toFixed(2),
-    cu: 'INR',
-    tn: `Payment for ${c.title}`,
-    tr: String(Date.now()),
-  });
-
-  return `upi://pay?${params.toString()}`;
-};
-
 const upiApps = [
-  {
-    id: 'gpay',
-    label: 'Google Pay',
-    icon: '💳',
-    url: (c) =>
-      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`,
-  },
-  {
-    id: 'phonepe',
-    label: 'PhonePe',
-    icon: '📱',
-    url: (c) =>
-      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=com.phonepe.app;end`,
-  },
-  {
-    id: 'paytm',
-    label: 'Paytm',
-    icon: '💰',
-    url: (c) =>
-      `intent://pay?${buildUpiUrl(c).replace('upi://pay?', '')}#Intent;scheme=upi;package=net.one97.paytm;end`,
-  },
-  {
-    id: 'other',
-    label: 'Other UPI app',
-    icon: '🏦',
-    url: buildUpiUrl,
-  },
+  { id: 'gpay', label: 'Google Pay', icon: '💳' },
+  { id: 'phonepe', label: 'PhonePe', icon: '📱' },
+  { id: 'paytm', label: 'Paytm', icon: '💰' },
+  { id: 'other', label: 'Other UPI app', icon: '🏦' },
 ];
 
   useEffect(() => {
@@ -234,7 +198,12 @@ const upiApps = [
                 <button
                   key={app.id}
                   className={`upi-app-btn ${app.id === 'other' ? 'other' : ''}`}
-                  onClick={() => { window.location.href = app.url(pickerCollection) }}
+                  onClick={() => {
+                    const c = pickerCollection
+                    const url = `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${c.title}`)}&tr=${Date.now()}`
+                    setPickerCollection(null)
+                    window.location.href = url
+                  }}
                 >
                   <span className="upi-app-icon">{app.icon}</span>
                   <span className="upi-app-label">{app.label}</span>

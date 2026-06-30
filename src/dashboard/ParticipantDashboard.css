@@ -279,6 +279,84 @@
 }
 
 /* ─── UPI App Picker ─── */
+.modal-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-card {
+  width: min(480px, 100%);
+  border-radius: 36px;
+  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.app-wrapper.theme-dark .modal-card {
+  background: #1a2332;
+  border: 1px solid #2d3a4f;
+}
+
+.app-wrapper.theme-light .modal-card {
+  background: rgba(242, 252, 245, 0.55);
+  border: 0.5px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px 20px;
+}
+
+.app-wrapper.theme-dark .modal-header {
+  border-bottom: 1px solid #2d3a4f;
+}
+
+.app-wrapper.theme-light .modal-header {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+
+.modal-header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  flex: 1;
+}
+
+.app-wrapper.theme-dark .modal-header h1 {
+  color: #f8fafc;
+}
+
+.app-wrapper.theme-light .modal-header h1 {
+  color: #000000;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.app-wrapper.theme-dark .close-btn {
+  color: #f8fafc;
+}
+
+.app-wrapper.theme-light .close-btn {
+  color: #000000;
+}
+
+.modal-content {
+  padding: 28px;
+}
 .upi-picker {
   max-height: 90vh;
   overflow-y: auto;
