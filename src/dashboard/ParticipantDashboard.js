@@ -137,7 +137,7 @@ export default function ParticipantDashboard() {
           ) : (
             pendingCollections.map(collection => {
               const upiLink = collection.upiId
-                ? `upi://pay?pa=${collection.upiId}&pn=${encodeURIComponent(collection.organiserName)}&am=${Number(collection.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${collection.title}`)}&mode=04`
+                ? `upi://pay?pa=${collection.upiId}&pn=${encodeURIComponent(collection.organiserName)}&am=${Number(collection.amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Payment for ${collection.title}`)}&tr=${Date.now()}`
                 : null
               return (
               <SwipeableCard
