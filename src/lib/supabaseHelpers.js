@@ -334,3 +334,18 @@ export function mapSupabaseCollection(collection, participants) {
     pending: Number(collection.target_amount) - totalPaid,
   }
 }
+
+export async function markAsPaid(participantProfileId, collectionId, amountPaid) {
+  const { data, error } = await supabase
+    .from('collection_participants')
+    .update({ status: 'paid', amount_paid: amountPaid })
+    .eq('participant_profile_id', participantProfileId)
+    .eq('collection_id', collectionId)
+    .select()
+    .single()
+
+  if (error) throw error
+  if (!data) throw new Error('No matching participant record found')
+
+  return data
+}
