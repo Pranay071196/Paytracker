@@ -92,7 +92,7 @@ describe('findMatches', () => {
     { date: '2025-04-02', description: 'Transfer', amount: 500, utr: '', sender_name: 'Priya' },
   ]
   const participants = [
-    { id: 1, participant_name: 'Rajesh Kumar', amount_due: 1000, status: 'pending', utr: '' },
+    { id: 1, participant_name: 'Rajesh Kumar', amount_due: 1000, status: 'pending', utr: 'UTR123456789' },
     { id: 2, participant_name: 'Priya Sharma', amount_due: 500, status: 'pending', utr: '' },
   ]
 
