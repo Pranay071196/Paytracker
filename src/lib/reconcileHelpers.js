@@ -119,15 +119,15 @@ function normalizeDate(dateStr) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed
 
   // DD/MM/YYYY or DD-MM-YYYY
-  const dmy = trimmed.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/)
+  const dmy = trimmed.match(/^(\d{2})[/-](\d{2})[/-](\d{4})$/)
   if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`
 
   // DD/MM/YY
-  const dmy2 = trimmed.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{2})$/)
+  const dmy2 = trimmed.match(/^(\d{2})[/-](\d{2})[/-](\d{2})$/)
   if (dmy2) return `20${dmy2[3]}-${dmy2[2]}-${dmy2[1]}`
 
   // YYYY/MM/DD
-  const ymd = trimmed.match(/^(\d{4})[\/\-](\d{2})[\/\-](\d{2})$/)
+  const ymd = trimmed.match(/^(\d{4})[/-](\d{2})[/-](\d{2})$/)
   if (ymd) return `${ymd[1]}-${ymd[2]}-${ymd[3]}`
 
   return trimmed
@@ -168,7 +168,6 @@ export function validateUTR(utr) {
 export function findMatches(transactions, participants, options = {}) {
   const {
     amountTolerance = 0.01,
-    nameSimilarityThreshold = 0.6,
     useUTROnly = false,
   } = options
 

@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import Header from '../layout/Header'
 import Footer from '../layout/Footer'
-import { parseCSV, findMatches, validateUTR } from '../lib/reconcileHelpers'
-import { insertReconciliationTransactions, fetchReconciliationTransactions, fetchParticipantsForReconciliation, confirmMatch, rejectMatch } from '../lib/reconcileDbHelpers'
+import { parseCSV, findMatches } from '../lib/reconcileHelpers'
+import { insertReconciliationTransactions, fetchParticipantsForReconciliation, confirmMatch, rejectMatch } from '../lib/reconcileDbHelpers'
 import '../styles/theme.css'
 import './ReconcilePage.css'
 
 export default function ReconcilePage() {
   const [step, setStep] = useState(1)
-  const [collectionId, setCollectionId] = useState(null)
+  const [collectionId] = useState(null)
   const [csvText, setCsvText] = useState('')
   const [transactions, setTransactions] = useState([])
-  const [participants, setParticipants] = useState([])
+  const [, setParticipants] = useState([])
   const [matches, setMatches] = useState([])
   const [confirmedMatches, setConfirmedMatches] = useState(0)
   const [rejectedMatches, setRejectedMatches] = useState(0)
@@ -108,7 +108,6 @@ export default function ReconcilePage() {
   const steps = ['Upload', 'Match', 'Review', 'Confirm']
 
   const canProceedFromStep1 = transactions.length > 0
-  const canProceedFromStep2 = matches.length > 0
 
   return (
     <main className="page-reconcile">
