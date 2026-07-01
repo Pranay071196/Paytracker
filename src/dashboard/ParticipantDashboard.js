@@ -19,6 +19,8 @@ export default function ParticipantDashboard() {
   const [joinMsg, setJoinMsg] = useState('')
   const [joiningGroup, setJoiningGroup] = useState(false)
   const [pickerCollection, setPickerCollection] = useState(null)
+  const [utrInput, setUtrInput] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const upiApps = [
     { id: 'gpay-native', label: 'Google Pay', icon: '💳', url: (c) => `gpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
@@ -81,6 +83,19 @@ export default function ParticipantDashboard() {
       setJoinMsg(err.message || 'Failed to join group')
     } finally {
       setJoiningGroup(false)
+    }
+  }
+
+  const handleMarkAsPaid = async () => {
+    if (!utrInput.trim() || !profile?.id) return
+    setSubmitting(true)
+    try {
+      // TODO: submit UTR to backend
+      await new Promise(r => setTimeout(r, 500))
+      setUtrInput('')
+    } catch {
+    } finally {
+      setSubmitting(false)
     }
   }
 

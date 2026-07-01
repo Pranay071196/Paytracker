@@ -260,4 +260,21 @@ export default function ReconcilePage() {
         )}
 
         {/* Step 4: Confirm */}
-       
+        {step === 4 && (
+          <div className="step-content">
+            <div className="confirm-section">
+              <div className="confirm-icon">✅</div>
+              <h2>Reconciliation complete</h2>
+              <p>{confirmedMatches} matches confirmed · {rejectedMatches} rejected</p>
+            </div>
+            <button className="reconcile-next-btn" onClick={() => setStep(1)}>
+              Start over
+            </button>
+          </div>
+        )}
+      </section>
+
+      <Footer />
+    </main>
+  )
+}
