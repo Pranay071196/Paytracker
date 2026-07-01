@@ -21,11 +21,12 @@ export default function ParticipantDashboard() {
   const [pickerCollection, setPickerCollection] = useState(null)
 
   const upiApps = [
-    { id: 'gpay', label: 'Google Pay', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+    { id: 'gpay-native', label: 'Google Pay', icon: '💳', url: (c) => `gpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
+    { id: 'gpay-web', label: 'Google Pay (Web)', icon: '🌐', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
     { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
     { id: 'paytm', label: 'Paytm', icon: '💰', url: (c) => `paytmmp://upiPay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+    { id: 'amazonpay', label: 'Amazon Pay', icon: '🛒', url: (c) => `amazonpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
     { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
-    { id: 'gpay', label: 'Google Pay 1', icon: '💳', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR`},
   ]
 
   useEffect(() => {
