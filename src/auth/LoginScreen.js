@@ -56,11 +56,14 @@ export default function LoginScreen({ session }) {
       setMessage('')
 
       console.log('[Login] Sending OTP to:', normalizedEmail)
+      const redirectUrl = new URL(process.env.REACT_APP_REDIRECT_URL || window.location.origin + '/login')
+      if (normalizedPhone) redirectUrl.searchParams.set('phone', normalizedPhone)
       const { error } = await supabase.auth.signInWithOtp({
         email: normalizedEmail,
         options: {
-          emailRedirectTo: process.env.REACT_APP_REDIRECT_URL,
+          emailRedirectTo: redirectUrl.toString(),
           shouldCreateUser: true,
+          data: { phone: normalizedPhone },
         },
       })
 

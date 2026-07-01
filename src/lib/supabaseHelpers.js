@@ -3,17 +3,19 @@ import { supabase } from '../supabaseClient'
 export async function createOrFetchProfile(authUser, options = {}) {
   if (!authUser) return null
 
+  const phone = options.phone || authUser.user_metadata?.phone || null
+
   let { data: existing } = await supabase
     .from('profiles')
     .select('*')
     .eq('auth_user_id', authUser.id)
     .maybeSingle()
 
-  if (!existing && options.phone) {
+  if (!existing && phone) {
     const { data: byPhone } = await supabase
       .from('profiles')
       .select('*')
-      .eq('phone', options.phone)
+      .eq('phone', phone)
       .maybeSingle()
 
     if (byPhone) {
@@ -31,7 +33,7 @@ export async function createOrFetchProfile(authUser, options = {}) {
   if (existing) {
     const updates = {}
     if (authUser.email) updates.email = authUser.email
-    if (options.phone) updates.phone = options.phone
+    if (phone) updates.phone = phone
     if (options.role) updates.role = options.role
     if (options.full_name) updates.full_name = options.full_name
 
@@ -52,7 +54,7 @@ export async function createOrFetchProfile(authUser, options = {}) {
   const profile = {
     auth_user_id: authUser.id,
     email: authUser.email || options.email || null,
-    phone: options.phone || null,
+    phone: phone,
     role: options.role || 'participant',
     full_name: options.full_name || authUser.email?.split('@')[0] || 'User',
   }

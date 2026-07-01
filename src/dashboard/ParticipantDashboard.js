@@ -22,7 +22,7 @@ export default function ParticipantDashboard() {
   const [utrInput, setUtrInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const upiApps = [
+  const upiApps1 = [
     { id: 'gpay-native', label: 'Google Pay', icon: '💳', url: (c) => `gpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
     { id: 'gpay-web', label: 'Google Pay (Web)', icon: '🌐', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
     { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
@@ -30,6 +30,96 @@ export default function ParticipantDashboard() {
     { id: 'amazonpay', label: 'Amazon Pay', icon: '🛒', url: (c) => `amazonpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
     { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
   ]
+
+  //   const upiApps = [
+  //   { id: 'gpay-native', label: 'Google Pay', icon: '💳', url: (c) => `gpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
+  //   { id: 'gpay-web', label: 'Google Pay (Web)', icon: '🌐', url: (c) => `https://pay.google.com/gp/p/ui/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+  //   { id: 'phonepe', label: 'PhonePe', icon: '📱', url: (c) => `phonepe://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR` },
+  //   { id: 'paytm', label: 'Paytm', icon: '💰', url: (c) => `paytmmp://upiPay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+  //   { id: 'amazonpay', label: 'Amazon Pay', icon: '🛒', url: (c) => `amazonpay://upi/pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+  //   { id: 'other', label: 'Other UPI app', icon: '🏦', url: (c) => `upi://pay?pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${Number(c.amount).toFixed(2)}&cu=INR` },
+  // ]
+  // Platform detection
+const getPlatform = () => {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(ua)) return 'android';
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+  return 'other';
+};
+
+// Shared UPI param builder — includes a fresh `tr` every call (fixes the
+// "transaction cannot be processed" rejection you were hitting)
+function buildUpiParams(c) {
+  const amount = Number(c.amount).toFixed(2);
+  if (isNaN(amount) || Number(amount) <= 0) {
+    throw new Error('Invalid amount for UPI payment');
+  }
+  const tr = `TXN${Date.now()}${Math.floor(Math.random() * 1000)}`;
+  return `pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${amount}&tr=${tr}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR`;
+}
+
+// Android package names, needed to build the intent:// wrapper
+const androidPackages = {
+  gpay: 'com.google.android.apps.nbu.paisa.user',
+  phonepe: 'com.phonepe.app',
+  paytm: 'net.one97.paytm',
+  amazonpay: 'in.amazon.mShop.android.shopping',
+};
+
+// Builds a working link for one app on the current platform
+function buildLink(scheme, androidPkg, c, platform) {
+  const params = buildUpiParams(c);
+
+  if (platform === 'android') {
+    const fallback = encodeURIComponent(`https://play.google.com/store/apps/details?id=${androidPkg}`);
+    return `intent://pay?${params}#Intent;scheme=${scheme};package=${androidPkg};S.browser_fallback_url=${fallback};end`;
+  }
+  // iOS / other: plain scheme works if app is installed, fails silently otherwise
+  return `${scheme}://upi/pay?${params}`;
+}
+
+const upiApps = [
+  {
+    id: 'gpay-native',
+    label: 'Google Pay',
+    icon: '💳',
+    url: (c) => buildLink('gpay', androidPackages.gpay, c, getPlatform()),
+  },
+  // Removed 'gpay-web' (pay.google.com/gp/p/ui/pay) — this is not a
+  // documented public endpoint for arbitrary VPAs and will likely 404 or
+  // fail for non-Google-registered merchants. Use the generic 'other'
+  // button as the web-friendly fallback instead.
+  {
+    id: 'phonepe',
+    label: 'PhonePe',
+    icon: '📱',
+    // fixed: was phonepe://pay?..., correct path includes /upi/
+    url: (c) => buildLink('phonepe', androidPackages.phonepe, c, getPlatform()),
+  },
+  {
+    id: 'paytm',
+    label: 'Paytm',
+    icon: '💰',
+    // fixed: was paytmmp://upiPay?..., correct path is paytmmp://upi/pay
+    url: (c) => buildLink('paytmmp', androidPackages.paytm, c, getPlatform()),
+  },
+  {
+    id: 'amazonpay',
+    label: 'Amazon Pay',
+    icon: '🛒',
+    // Heads up: Amazon's own docs say UPI is usable only inside the
+    // Amazon app itself — this may not reliably launch a pay screen
+    // from a third-party link even with tr added. Test before relying on it.
+    url: (c) => buildLink('amazonpay', androidPackages.amazonpay, c, getPlatform()),
+  },
+  {
+    id: 'other',
+    label: 'Other UPI app',
+    icon: '🏦',
+    // Generic upi://pay — NPCI-mandated, most reliable across apps and platforms
+    url: (c) => `upi://pay?${buildUpiParams(c)}`,
+  },
+];
 
   useEffect(() => {
     if (profile && profile.id) {

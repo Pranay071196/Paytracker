@@ -77,8 +77,11 @@ function AppContent({ session }) {
     if (createdProfile.current) return
     createdProfile.current = true
 
-    const phone = localStorage.getItem('pendingPhone')
-    createOrFetchProfile(session.user, { phone: phone || undefined })
+    const storedPhone = localStorage.getItem('pendingPhone')
+    const urlPhone = new URLSearchParams(window.location.search).get('phone')
+    const phone = storedPhone || urlPhone || undefined
+    if (phone && !storedPhone) localStorage.setItem('pendingPhone', phone)
+    createOrFetchProfile(session.user, { phone })
       .then((profileData) => {
         if (profileData) {
           setProfile(profileData)
