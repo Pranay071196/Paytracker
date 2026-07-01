@@ -55,7 +55,7 @@ function buildUpiParams(c) {
     throw new Error('Invalid amount for UPI payment');
   }
   const tr = `TXN${Date.now()}${Math.floor(Math.random() * 1000)}`;
-  return `pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${amount}&tr=${tr}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR`;
+  return `pa=${c.upiId}&pn=${encodeURIComponent(c.organiserName)}&am=${amount}&tr=${tr}&tn=${encodeURIComponent(`Payment for ${c.title}`)}&cu=INR&mc=0000&mode=02&purpose=00`;
 }
 
 // Android package names, needed to build the intent:// wrapper
