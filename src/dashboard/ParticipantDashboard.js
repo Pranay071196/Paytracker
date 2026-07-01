@@ -207,6 +207,26 @@ export default function ParticipantDashboard() {
                   <span className="upi-app-arrow">→</span>
                 </button>
               ))}
+              <div className="utr-section">
+                <p className="picker-subtitle" style={{ marginTop: 16 }}>Already paid? Enter UTR (optional)</p>
+                <div className="utr-input-row">
+                  <input
+                    type="text"
+                    placeholder="Enter UTR number"
+                    value={utrInput}
+                    onChange={e => setUtrInput(e.target.value)}
+                    className="form-input utr-input"
+                    maxLength={16}
+                  />
+                  <button
+                    className="mark-as-paid-btn"
+                    onClick={handleMarkAsPaid}
+                    disabled={submitting}
+                  >
+                    {submitting ? '...' : 'Mark as Paid'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
